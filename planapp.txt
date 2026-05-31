@@ -1,0 +1,28 @@
+Act as a Principal Mobile UX/UI Architect. Design a multi-functional, comprehensive interface suite for a high-performance utility application called "MatrixFlow Pro", mimicking an app architecture optimized for massive global scale. The layout must cleanly incorporate complex toolsets without cluttering the screen real estate.
+
+Global UI tokens & Theming (Feature: Custom Color/Theme & Dark Mode):
+- The app must support a dynamic Theme System. Default state is an immersive Dark Mode utilizing True Black (#000000) for native OLED optimization, Slate Gray accents (#334155), and a high-visibility Neon Emerald (#22C55E) or Electric Blue (#3B82F6) interactive state.
+- Component layout must respect clean touch targets (minimum 48x48px) with readable font sizes via a system sans-serif stack.
+
+Screen 1: Advanced Auto-Detect Scanner (Features: Zoom, Flashlight, Batch Scan)
+- Viewport: Full-bleed live camera preview layout. No manual focus or trigger buttons on screen.
+- Scanner Overlay: Center square tracking reticle with animated corner-brackets that change color dynamically from white to emerald-green when a barcode/QR code matrix comes into alignment.
+- Quick Utilities Toolbar: Floating translucent glassmorphism widget row on the upper third margin containing toggles for: [Flashlight (Zap Icon), Batch Scan Mode Toggle (Stacked Layers Icon), and a slider indicator bar for Pinch-to-Zoom].
+- Gallery Trigger: Floating action button near the base reading "Scan from Gallery Asset".
+
+Screen 2: Contextual Decoded Result Layer (Features: Smart Parsing & Price Match)
+- Trigger a dynamic slide-up bottom modal sheet that changes its layout conditionally depending on the text data type:
+  - If URL/Coupon Data: Display site domain details, warning verification status, and an explicit action button "Open Web Link & Claim Discount".
+  - If Wi-Fi Network: Provide separate information rows for Network SSID, Encryption protocol, and a high-priority link button reading "Connect to WiFi Instantly".
+  - If Consumer Product Barcode: Render a split comparison panel featuring a "Retail Store Price" string alongside a real-time web pricing block scraper labeled "Online Price Comparison" with a CTA to "View Cheapest Online Deal".
+
+Screen 3: Dual-Mode Generation Studio (Features: Generator Engine & Clipboard)
+- Workspace layout split into two functional halves on a clean White Canvas surface (#FFFFFF).
+- Top Half Grid: A multi-tab selector row of conversion formats: [Text, Website Link, vCard, Wi-Fi, SMS, Clipboard Auto-Paste]. Selecting clipboard automatically populates the text field below with the phone's current active clipboard data string.
+- Bottom Half Grid: A live-rendering output box displaying the drawn barcode or QR matrix. Below this image box, place an expandable styling accordion menu containing color-picker wheel swatches to "Change App Matrix Color Theme" and an "Insert Central Identity Logo" upload area.
+- Final Action Button: Wide full-bleed block button labeled "Export High-Res Vector (PNG, SVG, or Print Format)".
+
+Screen 4: Enterprise Archive Matrix (Features: History Logging, Favorites, CSV Data)
+- Layout Structure: Top navigation bar features the title "Activity Archives" with a right-aligned text action button "Export to .CSV / .TXT Document".
+- Tab Filter Structure: Two clean segmented text chip tabs reading "All Recent Scans" and "Saved Favorites Archive".
+- Scrollable Rows List: Stacked transactional items displaying format type vector badges, time logs, and truncated text strings. Swiping any item container container to the left reveals a quick trash can icon button to remove the log from local database storage.
