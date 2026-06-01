@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="FastQR: QR code scanner w/ generator"
+        android:label="FastQR"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
