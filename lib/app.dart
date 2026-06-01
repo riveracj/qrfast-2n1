@@ -11,7 +11,7 @@ class QRFASTApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'QRFAST',
+      title: 'FastQR: QR code scanner w/ generator',
       theme: AppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
       home: const MainShell(),
