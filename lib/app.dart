@@ -4,6 +4,8 @@ import 'theme/app_colors.dart';
 import 'screens/scanner/scanner_screen.dart';
 import 'screens/generator/generator_screen.dart';
 import 'screens/archive/archive_screen.dart';
+import 'screens/templates/templates_screen.dart';
+import 'screens/settings/settings_screen.dart';
 
 class QRFASTApp extends StatelessWidget {
   const QRFASTApp({super.key});
@@ -30,9 +32,11 @@ class _MainShellState extends State<MainShell> {
   int _currentIndex = 0;
 
   final _screens = const [
+    TemplatesScreen(),
     ScannerScreen(),
     GeneratorScreen(),
     ArchiveScreen(),
+    SettingsScreen(),
   ];
 
   @override
@@ -58,6 +62,11 @@ class _MainShellState extends State<MainShell> {
           elevation: 0,
           items: const [
             BottomNavigationBarItem(
+              icon: Icon(Icons.dashboard_outlined),
+              activeIcon: Icon(Icons.dashboard),
+              label: 'Templates',
+            ),
+            BottomNavigationBarItem(
               icon: Icon(Icons.qr_code_scanner),
               activeIcon: Icon(Icons.qr_code_scanner),
               label: 'Scan',
@@ -71,6 +80,11 @@ class _MainShellState extends State<MainShell> {
               icon: Icon(Icons.history_outlined),
               activeIcon: Icon(Icons.history),
               label: 'History',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings_outlined),
+              activeIcon: Icon(Icons.settings),
+              label: 'Settings',
             ),
           ],
         ),

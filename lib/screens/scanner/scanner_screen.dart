@@ -3,6 +3,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../models/scan_record.dart';
 import '../../services/storage_service.dart';
+import '../../services/app_settings.dart';
 import '../../theme/app_colors.dart';
 import '../result/result_sheet.dart';
 import 'widgets/scanner_overlay.dart';
@@ -114,7 +115,32 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ValueListenableBuilder<bool>(
+      valueListenable: AppSettings.cameraEnabled,
+      builder: (context, cameraOn, _) {
+        if (!cameraOn) {
+          return Scaffold(
+            backgroundColor: AppColors.trueBlack,
+            appBar: AppBar(title: const Text('Scanner')),
+            body: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.camera_alt_outlined, size: 64, color: AppColors.textSecondary.withValues(alpha: 0.4)),
+                  const SizedBox(height: 16),
+                  const Text('Camera is disabled',
+                    style: TextStyle(color: AppColors.textSecondary, fontSize: 16),
+                  ),
+                  const SizedBox(height: 4),
+                  const Text('Enable it in Settings to scan QR codes',
+                    style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+        return Scaffold(
       backgroundColor: AppColors.trueBlack,
       body: Stack(
         children: [
@@ -191,6 +217,8 @@ class _ScannerScreenState extends State<ScannerScreen> {
           ),
         ],
       ),
+    );
+        },
     );
   }
 }
