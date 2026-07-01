@@ -123,6 +123,28 @@ class _ScannerScreenState extends State<ScannerScreen> {
             onDetect: _onDetect,
           ),
           ScannerOverlay(isDetected: _isDetected),
+          Positioned(
+            top: MediaQuery.of(context).padding.top + 16,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset('assets/ic_luncher.png', width: 32, height: 32),
+                  const SizedBox(width: 10),
+                  const Text('FastQR',
+                    style: TextStyle(
+                      color: AppColors.textPrimary,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1.2,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
           QuickToolbar(
             torchEnabled: _torchEnabled,
             batchMode: _batchMode,

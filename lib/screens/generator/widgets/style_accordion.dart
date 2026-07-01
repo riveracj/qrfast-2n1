@@ -6,12 +6,16 @@ class StyleAccordion extends StatefulWidget {
   final Color qrColor;
   final ValueChanged<Color> onColorChanged;
   final VoidCallback onLogoSelected;
+  final bool hasLogo;
+  final VoidCallback? onLogoRemoved;
 
   const StyleAccordion({
     super.key,
     required this.qrColor,
     required this.onColorChanged,
     required this.onLogoSelected,
+    this.hasLogo = false,
+    this.onLogoRemoved,
   });
 
   @override
@@ -92,18 +96,51 @@ class _StyleAccordionState extends State<StyleAccordion> {
                     style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
                   ),
                   const SizedBox(height: 8),
-                  OutlinedButton.icon(
-                    onPressed: widget.onLogoSelected,
-                    icon: const Icon(Icons.image_outlined),
-                    label: const Text('Upload Image'),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.textPrimary,
-                      side: const BorderSide(color: AppColors.slateGray),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                  if (widget.hasLogo)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: widget.onLogoSelected,
+                            icon: const Icon(Icons.image_outlined),
+                            label: const Text('Change Image'),
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: AppColors.textPrimary,
+                              side: const BorderSide(color: AppColors.slateGray),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        OutlinedButton.icon(
+                          onPressed: widget.onLogoRemoved,
+                          icon: const Icon(Icons.close, size: 18),
+                          label: const Text('Remove'),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: AppColors.errorRed,
+                            side: const BorderSide(color: AppColors.errorRed),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  else
+                    OutlinedButton.icon(
+                      onPressed: widget.onLogoSelected,
+                      icon: const Icon(Icons.image_outlined),
+                      label: const Text('Upload Image'),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AppColors.textPrimary,
+                        side: const BorderSide(color: AppColors.slateGray),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),

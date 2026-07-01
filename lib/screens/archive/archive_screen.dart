@@ -19,7 +19,10 @@ class _ArchiveScreenState extends State<ArchiveScreen> {
   @override
   void initState() {
     super.initState();
-    _storage.load();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _storage.load();
+      if (mounted) setState(() {});
+    });
   }
 
   List<ScanRecord> get _filteredRecords {

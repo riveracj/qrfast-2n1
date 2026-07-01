@@ -89,7 +89,7 @@ class _TypeBadge extends StatelessWidget {
   _BadgeConfig _config() {
     switch (type) {
       case ScanDataType.url:
-        return _BadgeConfig(Icons.link, AppColors.electricBlue, 'URL / Coupon');
+        return _BadgeConfig(Icons.link, AppColors.electricBlue, 'URL');
       case ScanDataType.wifi:
         return _BadgeConfig(Icons.wifi, AppColors.electricBlue, 'Wi-Fi Network');
       case ScanDataType.product:

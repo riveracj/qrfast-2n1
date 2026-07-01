@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../theme/app_colors.dart';
 
@@ -62,15 +63,34 @@ class UrlResultView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Container(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.only(left: 12, right: 4, top: 12, bottom: 12),
           decoration: BoxDecoration(
             color: AppColors.surfaceCard,
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Text(url,
-            style: const TextStyle(color: AppColors.textSecondary, fontSize: 13),
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(url,
+                  style: const TextStyle(color: AppColors.textSecondary, fontSize: 13),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Clipboard.setData(ClipboardData(text: url));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Link copied to clipboard'),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.copy, color: AppColors.textSecondary, size: 20),
+                tooltip: 'Copy link',
+              ),
+            ],
           ),
         ),
         const SizedBox(height: 20),
@@ -80,13 +100,13 @@ class UrlResultView extends StatelessWidget {
           child: FilledButton.icon(
             onPressed: () async {
               if (uri != null && await canLaunchUrl(uri)) {
-                await launchUrl(uri, mode: LaunchMode.externalApplication);
+                await launchUrl(uri, mode: LaunchMode.platformDefault);
               }
             },
             icon: const Icon(Icons.open_in_new),
-            label: const Text('Open Web Link & Claim Discount'),
+            label: const Text('Open Web Link'),
             style: FilledButton.styleFrom(
-              backgroundColor: AppColors.electricBlue,
+              backgroundColor: AppColors.neonEmerald,
               foregroundColor: AppColors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),

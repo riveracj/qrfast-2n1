@@ -75,12 +75,23 @@ class _GeneratorScreenState extends State<GeneratorScreen> {
     await _storage.addRecord(record);
 
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('QR Code generated & saved to history'),
-        behavior: SnackBarBehavior.floating,
+    _showSuccessAnimation();
+  }
+
+  void _showSuccessAnimation() {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black54,
+      builder: (ctx) => PopScope(
+        canPop: false,
+        child: Center(
+          child: _SuccessCheck(),
+        ),
       ),
     );
+    Future.delayed(const Duration(milliseconds: 1200), () {
+      if (mounted) Navigator.of(context).pop();
+    });
   }
 
   @override
@@ -89,6 +100,7 @@ class _GeneratorScreenState extends State<GeneratorScreen> {
       backgroundColor: AppColors.surfaceDark,
       appBar: AppBar(
         title: const Text('Generation Studio'),
+        actions: const [],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -177,6 +189,8 @@ class _GeneratorScreenState extends State<GeneratorScreen> {
               qrColor: _qrColor,
               onColorChanged: (c) => setState(() => _qrColor = c),
               onLogoSelected: _pickLogo,
+              hasLogo: _logoBytes != null,
+              onLogoRemoved: () => setState(() => _logoBytes = null),
             ),
             const SizedBox(height: 24),
             SizedBox(
@@ -220,4 +234,86 @@ class _GeneratorScreenState extends State<GeneratorScreen> {
         return 'Clipboard content appears here...';
     }
   }
+}
+
+class _SuccessCheck extends StatefulWidget {
+  @override
+  State<_SuccessCheck> createState() => _SuccessCheckState();
+}
+
+class _SuccessCheckState extends State<_SuccessCheck>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnim;
+  late Animation<double> _checkAnim;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
+    _scaleAnim = CurvedAnimation(parent: _controller, curve: Curves.elasticOut);
+    _checkAnim = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _controller, curve: const Interval(0.4, 0.8, curve: Curves.easeOut)),
+    );
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScaleTransition(
+      scale: _scaleAnim,
+      child: Container(
+        width: 100,
+        height: 100,
+        decoration: const BoxDecoration(
+          color: AppColors.neonEmerald,
+          shape: BoxShape.circle,
+        ),
+        child: AnimatedBuilder(
+          animation: _checkAnim,
+          builder: (context, child) => CustomPaint(
+            painter: _CheckPainter(progress: _checkAnim.value),
+            size: const Size(50, 50),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _CheckPainter extends CustomPainter {
+  final double progress;
+  _CheckPainter({required this.progress});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = AppColors.white
+      ..strokeWidth = 5
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke;
+
+    final path = Path();
+    path.moveTo(size.width * 0.2, size.height * 0.5);
+    path.lineTo(size.width * 0.42, size.height * 0.75);
+    path.lineTo(size.width * 0.8, size.height * 0.28);
+
+    final metrics = path.computeMetrics();
+    for (final metric in metrics) {
+      final extractPath = metric.extractPath(0, metric.length * progress);
+      canvas.drawPath(extractPath, paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _CheckPainter old) => old.progress != progress;
 }
